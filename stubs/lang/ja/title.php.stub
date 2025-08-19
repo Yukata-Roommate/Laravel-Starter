@@ -1,0 +1,61 @@
+<?php
+
+return [
+    "sidebar" => [
+        "user"        => "ユーザー",
+        "user_index"  => "一覧",
+        "user_create" => "新規登録",
+    ],
+
+    "page" => [
+        "home" => "Home",
+
+        "profile" => [
+            "index" => "プロフィール",
+            "edit"  => "プロフィール 編集",
+        ],
+
+        "user" => [
+            "index"  => "ユーザー",
+            "show"   => "ユーザー 詳細",
+            "create" => "ユーザー 新規登録",
+            "edit"   => "ユーザー 編集",
+        ],
+    ],
+
+    "breadcrumb" => [
+        "home" => "Home",
+
+        "profile" => [
+            "index" => "プロフィール",
+            "edit"  => "編集",
+        ],
+
+        "user" => [
+            "index"  => "ユーザー",
+            "show"   => "詳細",
+            "create" => "新規登録",
+            "edit"   => "編集",
+        ],
+    ],
+
+    "card" => [
+        "profile" => [
+            "index" => "情報",
+        ],
+
+        "user" => [
+            "index" => "一覧",
+        ],
+    ],
+
+    "modal" => [
+        "user" => [
+            "search" => "ユーザー 検索",
+        ],
+
+        "markdown" => [
+            "preview" => "Markdown プレビュー",
+        ],
+    ],
+];

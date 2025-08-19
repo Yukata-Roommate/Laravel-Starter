@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Services\User;
+
+use YukataRm\Laravel\Resource\Service\EditService as BaseService;
+
+use App\Http\Requests\User\Entities\EditEntity as Entity;
+
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+
+use App\Facades\Repository;
+
+/**
+ * User Edit Service
+ *
+ * @method static \Illuminate\View\View|\Illuminate\Http\RedirectResponse handle(\App\Http\Requests\User\Entities\EditEntity $entity)
+ */
+class EditService extends BaseService
+{
+    /**
+     * name
+     *
+     * @var string
+     */
+    protected string $name = "user";
+
+    /**
+     * entity instance
+     *
+     * @var \App\Http\Requests\User\Entities\EditEntity
+     */
+    protected Entity $entity;
+
+    /**
+     * construct
+     *
+     * @param \App\Http\Requests\User\Entities\EditEntity $entity
+     * @return void
+     */
+    public function __construct(Entity $entity)
+    {
+        $this->entity = $entity;
+    }
+
+    /**
+     * execute service
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function execute(): View|RedirectResponse
+    {
+        $user = Repository::user()->findById($this->entity->id);
+
+        $roles = $this->user()->role->lowerThan();
+
+        return $this->view(compact("user", "roles"));
+    }
+}

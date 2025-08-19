@@ -1,0 +1,29 @@
+<x-pages :page-title="__('title.page.profile.index')">
+    <x-slot name="breadcrumb">
+        <x-breadcrumb.home />
+
+        <x-yukata-rm::breadcrumb.active :title="__('title.breadcrumb.profile.index')" />
+    </x-slot>
+
+    <x-yukata-rm::card :title="__('title.card.profile.index')">
+        <x-yukata-rm::item :title="__('item.name')">
+            {{ $user->name }}
+        </x-yukata-rm::item>
+
+        <x-yukata-rm::item :title="__('item.role')">
+            {{ $user->role->label() }}
+        </x-yukata-rm::item>
+
+        <x-yukata-rm::item :title="__('item.email')" :last="true">
+            {{ $user->email }}
+        </x-yukata-rm::item>
+
+        <x-slot name="footer">
+            <x-yukata-rm::button.group position="right">
+                <x-yukata-rm::button.link color="success" :outline="true" :href="route('profile.edit')">
+                    {{ __('button.edit') }}
+                </x-yukata-rm::button.link>
+            </x-yukata-rm::button.group>
+        </x-slot>
+    </x-yukata-rm::card>
+</x-pages>

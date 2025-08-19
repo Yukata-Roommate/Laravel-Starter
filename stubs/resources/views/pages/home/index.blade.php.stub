@@ -1,0 +1,5 @@
+<x-pages :page-title="__('title.page.home')">
+    <x-slot name="breadcrumb">
+        <x-yukata-rm::breadcrumb.active :title="__('title.breadcrumb.home')" />
+    </x-slot>
+</x-pages>

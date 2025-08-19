@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Models;
+
+use YukataRm\Laravel\Repository\Model\AuthenticatableEntityModel;
+
+use App\Enums\User\RoleEnum;
+
+use Illuminate\Support\Facades\Hash;
+
+use App\Repositories\Entities\UserEntity as Entity;
+use YukataRm\Laravel\Model\IsActive;
+
+/**
+ * User Model
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property \App\Enums\User\RoleEnum $role
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
+class User extends AuthenticatableEntityModel
+{
+    use IsActive;
+
+    /**
+     * table name
+     *
+     * @var string
+     */
+    protected $table = "users";
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        "password",
+        "remember_token",
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            "password"   => "hashed",
+            "role"       => RoleEnum::class,
+            "is_active"  => "bool",
+            "created_at" => "datetime",
+            "updated_at" => "datetime",
+        ];
+    }
+
+    /*----------------------------------------*
+     * Password
+     *----------------------------------------*/
+
+    /**
+     * set password attribute
+     *
+     * @param string $password
+     * @return void
+     */
+    public function setPasswordAttribute(string $password): void
+    {
+        $this->attributes["password"] = Hash::make($password);
+    }
+
+    /**
+     * whether the password is correct
+     *
+     * @param string $password
+     * @return bool
+     */
+    public function isPasswordCorrect(string $password): bool
+    {
+        return Hash::check($password, $this->password);
+    }
+
+    /*----------------------------------------*
+     * Entity
+     *----------------------------------------*/
+
+    /**
+     * convert to Entity
+     *
+     * @return \App\Repositories\Entities\UserEntity
+     */
+    public function toEntity(): Entity
+    {
+        return new Entity($this);
+    }
+}

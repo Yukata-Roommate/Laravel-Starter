@@ -1,0 +1,61 @@
+<?php
+
+return [
+    "sidebar" => [
+        "user"        => "User",
+        "user_index"  => "List",
+        "user_create" => "Create",
+    ],
+
+    "page" => [
+        "home" => "Home",
+
+        "profile" => [
+            "index" => "Profile",
+            "edit"  => "Profile Edit",
+        ],
+
+        "user" => [
+            "index"  => "User",
+            "show"   => "User Show",
+            "create" => "User Create",
+            "edit"   => "User Edit",
+        ],
+    ],
+
+    "breadcrumb" => [
+        "home" => "Home",
+
+        "profile" => [
+            "index" => "Profile",
+            "edit"  => "Edit",
+        ],
+
+        "user" => [
+            "index"  => "User",
+            "show"   => "Show",
+            "create" => "Create",
+            "edit"   => "Edit",
+        ],
+    ],
+
+    "card" => [
+        "profile" => [
+            "index" => "Info",
+        ],
+
+        "user" => [
+            "index" => "List",
+        ],
+    ],
+
+    "modal" => [
+        "user" => [
+            "search" => "Search User",
+        ],
+
+        "markdown" => [
+            "preview" => "Preview Markdown",
+        ],
+    ],
+];

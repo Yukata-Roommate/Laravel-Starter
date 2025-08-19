@@ -1,0 +1,32 @@
+<?php
+
+namespace Database\Seeders;
+
+use YukataRm\Laravel\Db\Seeder\SingleInsertSeeder;
+
+use App\Models\User;
+
+use App\Enums\User\RoleEnum;
+
+/**
+ * User Table Seeder
+ */
+class UserTableSeeder extends SingleInsertSeeder
+{
+    /**
+     * get model
+     *
+     * @return \App\Models\User
+     */
+    protected function model(): User
+    {
+        $user = new User();
+
+        $user->name     = config("yr-starter.user.name", "User");
+        $user->email    = config("yr-starter.user.email", "test@example.com");
+        $user->password = config("yr-starter.user.password", "password");
+        $user->role     = RoleEnum::SYSTEM;
+
+        return $user;
+    }
+}

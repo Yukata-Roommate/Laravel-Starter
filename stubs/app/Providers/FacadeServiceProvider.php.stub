@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Providers;
+
+use YukataRm\Laravel\Provider\FacadeServiceProvider as ServiceProvider;
+
+use App\Facades\Repository;
+use App\Facades\Managers\RepositoryManager;
+
+/**
+ * Facade Service Provider
+ */
+class FacadeServiceProvider extends ServiceProvider
+{
+    /**
+     * get facades
+     *
+     * @return array<string, string>
+     */
+    protected function facades(): array
+    {
+        return [
+            Repository::class => RepositoryManager::class,
+        ];
+    }
+}

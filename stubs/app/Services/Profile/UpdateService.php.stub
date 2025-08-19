@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Services\Profile;
+
+use YukataRm\Laravel\Resource\Service\UpdateService as BaseService;
+
+use App\Http\Requests\Profile\Entities\UpdateEntity as Entity;
+
+/**
+ * Profile Update Service
+ *
+ * @method static \Illuminate\Http\RedirectResponse handle(\App\Http\Requests\Profile\Entities\UpdateEntity $entity)
+ */
+class UpdateService extends BaseService
+{
+    /**
+     * name
+     *
+     * @var string
+     */
+    protected string $name = "profile";
+
+    /**
+     * entity instance
+     *
+     * @var \App\Http\Requests\Profile\Entities\UpdateEntity
+     */
+    protected Entity $entity;
+
+    /**
+     * construct
+     *
+     * @param \App\Http\Requests\Profile\Entities\UpdateEntity $entity
+     * @return void
+     */
+    public function __construct(Entity $entity)
+    {
+        $this->entity = $entity;
+    }
+
+    /**
+     * update
+     *
+     * @return bool
+     */
+    protected function update(): bool
+    {
+        $user = $this->user();
+
+        $user->name = $this->entity->name;
+
+        return $this->runTransaction(function () use ($user) {
+            $user->save();
+        });
+    }
+
+    /**
+     * update success response path
+     *
+     * @return string
+     */
+    #[\Override]
+    protected function successPath(): string
+    {
+        return $this->resourceRoute("index");
+    }
+
+    /**
+     * update success response params
+     *
+     * @return array<string, mixed>
+     */
+    protected function successParams(): array
+    {
+        return [];
+    }
+
+    /**
+     * update failure response params
+     *
+     * @return array<string, mixed>
+     */
+    protected function failureParams(): array
+    {
+        return [];
+    }
+
+    /**
+     * update failure response input
+     *
+     * @return array<string, mixed>
+     */
+    protected function failureInput(): array
+    {
+        return $this->entity->data();
+    }
+}

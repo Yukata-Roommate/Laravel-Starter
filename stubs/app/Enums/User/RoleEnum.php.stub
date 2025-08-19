@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Enums\User;
+
+use YukataRm\Enum\BackedExtension;
+
+/**
+ * User Role Enum
+ */
+enum RoleEnum: int
+{
+    use BackedExtension;
+
+    case SYSTEM = 1;
+    case ADMIN  = 100;
+    case USER   = 10000;
+
+    /**
+     * get label
+     *
+     * @return string
+     */
+    public function label(): string
+    {
+        return match ($this) {
+            self::SYSTEM => __("item.roles.system"),
+            self::ADMIN  => __("item.roles.admin"),
+            self::USER   => __("item.roles.user"),
+        };
+    }
+
+    /**
+     * get lower than
+     *
+     * @return array<\App\Enums\User\RoleEnum>
+     */
+    public function lowerThan(): array
+    {
+        $cases = self::cases();
+
+        return array_filter($cases, fn(RoleEnum $case) => $case->value > $this->value);
+    }
+
+    /**
+     * whether is system
+     *
+     * @return bool
+     */
+    public function isSystem(): bool
+    {
+        return $this === self::SYSTEM;
+    }
+
+    /**
+     * whether is admin
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this === self::ADMIN;
+    }
+
+    /**
+     * whether is user
+     *
+     * @return bool
+     */
+    public function isUser(): bool
+    {
+        return $this === self::USER;
+    }
+}

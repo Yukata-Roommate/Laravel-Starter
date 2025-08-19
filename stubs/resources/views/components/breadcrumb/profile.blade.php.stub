@@ -1,0 +1,1 @@
+<x-yukata-rm::breadcrumb :title="__('title.breadcrumb.profile.index')" :url="route('profile.index')" />

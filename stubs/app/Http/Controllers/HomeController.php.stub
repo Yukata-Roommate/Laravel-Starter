@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Services\Home as Service;
+
+use Illuminate\View\View;
+
+/**
+ * Home Controller
+ */
+class HomeController
+{
+    /**
+     * show home
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index(): View
+    {
+        return Service\IndexService::handle();
+    }
+}

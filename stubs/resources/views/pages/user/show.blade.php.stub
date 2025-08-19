@@ -1,0 +1,61 @@
+<x-pages :page-title="__('title.page.user.show')">
+    <x-slot name="breadcrumb">
+        <x-breadcrumb.home />
+
+        <x-breadcrumb.user />
+
+        <x-yukata-rm::breadcrumb.active :title="__('title.breadcrumb.user.show')" />
+    </x-slot>
+
+    <x-yukata-rm::card>
+        <x-yukata-rm::item :title="__('item.role')">
+            {{ $user->role->label() }}
+        </x-yukata-rm::item>
+
+        <x-yukata-rm::item :title="__('item.state')">
+            {{ $user->isActive ? __('item.active') : __('item.deactive') }}
+        </x-yukata-rm::item>
+
+        <x-yukata-rm::item :title="__('item.name')">
+            {{ $user->name }}
+        </x-yukata-rm::item>
+
+        <x-yukata-rm::item :title="__('item.email')">
+            {{ $user->email }}
+        </x-yukata-rm::item>
+
+        <x-yukata-rm::item :title="__('item.created_at')">
+            {{ $user->createdAt }}
+        </x-yukata-rm::item>
+
+        <x-yukata-rm::item :title="__('item.updated_at')" :last="true">
+            {{ $user->updatedAt }}
+        </x-yukata-rm::item>
+
+        <x-slot name="footer">
+            <x-yukata-rm::button.group position="right">
+                <x-yukata-rm::button.link color="success" :outline="true" :href="route('user.edit', $user->id)">
+                    {{ __('button.edit') }}
+                </x-yukata-rm::button.link>
+
+                <x-yukata-rm::form method="post" :action="route('user.toggle', $user->id)">
+                    @if ($user->isActive)
+                        <x-yukata-rm::button color="secondary" :outline="true" type="submit" class="ms-2">
+                            {{ __('button.deactivate') }}
+                        </x-yukata-rm::button>
+                    @else
+                        <x-yukata-rm::button color="primary" :outline="true" type="submit" class="ms-2">
+                            {{ __('button.activate') }}
+                        </x-yukata-rm::button>
+                    @endif
+                </x-yukata-rm::form>
+
+                <x-yukata-rm::form method="delete" action="{{ route('user.destroy', $user->id) }}">
+                    <x-yukata-rm::button color="danger" :outline="true" type="submit" class="ms-2">
+                        {{ __('button.destroy') }}
+                    </x-yukata-rm::button>
+                </x-yukata-rm::form>
+            </x-yukata-rm::button.group>
+        </x-slot>
+    </x-yukata-rm::card>
+</x-pages>

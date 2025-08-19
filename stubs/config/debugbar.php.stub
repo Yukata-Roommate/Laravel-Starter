@@ -1,0 +1,31 @@
+<?php
+
+return [
+    "collectors" => [
+        "phpinfo"         => true,
+        "messages"        => true,
+        "time"            => false,
+        "memory"          => true,
+        "exceptions"      => false,
+        "log"             => true,
+        "db"              => true,
+        "views"           => false,
+        "route"           => true,
+        "auth"            => true,
+        "gate"            => true,
+        "session"         => false,
+        "symfony_request" => true,
+        "mail"            => false,
+        "laravel"         => false,
+        "events"          => false,
+        "default_request" => false,
+        "logs"            => false,
+        "files"           => false,
+        "config"          => false,
+        "cache"           => false,
+        "models"          => false,
+        "livewire"        => false,
+        "jobs"            => false,
+        "pennant"         => false,
+    ],
+];

@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Requests\User;
+
+use YukataRm\Laravel\Resource\Request\IndexRequest as BaseRequest;
+use YukataRm\Laravel\Validation\Facades\Rules;
+
+use App\Http\Requests\User\Entities\IndexEntity as Entity;
+
+use App\Enums\User\RoleEnum;
+
+/**
+ * User Index Request
+ */
+class IndexRequest extends BaseRequest
+{
+    /**
+     * entity class
+     *
+     * @var string
+     */
+    protected string $entity = Entity::class;
+
+    /**
+     * additional data
+     *
+     * @var array<string>
+     */
+    protected array $additionalData = ["role", "state", "name"];
+
+    /**
+     * get Validation Rules array
+     *
+     * @return array<\YukataRm\Laravel\Validation\Interfaces\Rules\ValidationRulesInterface>
+     */
+    protected function validations(): array
+    {
+        return [
+            Rules::nullable("role")->enum(RoleEnum::class),
+            Rules::nullable("state")->flag(),
+            Rules::nullable("name")->string(),
+        ];
+    }
+}

@@ -1,0 +1,25 @@
+<?php
+
+namespace Database\Seeders;
+
+use YukataRm\Laravel\Db\Seeder\BaseSeeder;
+
+use Database\Seeders\Dummy\UserTableSeeder;
+
+/**
+ * Dummy Data Seeder
+ */
+class DummyDataSeeder extends BaseSeeder
+{
+    /**
+     * execute seeding
+     *
+     * @return void
+     */
+    protected function execute(): void
+    {
+        if (app()->isProduction()) return;
+
+        $this->call(UserTableSeeder::class);
+    }
+}

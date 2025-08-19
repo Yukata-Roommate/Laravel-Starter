@@ -1,0 +1,262 @@
+#!/usr/bin/env php
+
+<?php
+
+/******************************************
+ * Setup Script for Laravel
+ ******************************************
+ *
+ * This script is used to set up Laravel application.
+ * It should be run after cloning from Git repository.
+ *
+ * Composer
+ *      - composer install
+ *      - composer dump-autoload
+ *
+ * NPM
+ *      - npm clean-install
+ *      - npm run build
+ *
+ * Application
+ *      - copy .env.example to .env
+ *      - generate application key
+ *      - generate storage link
+ */
+
+/*----------------------------------------*
+ * Main
+ *----------------------------------------*/
+
+try {
+    showHeader();
+
+    confirmSetupEnvironment();
+
+    setupComposer();
+
+    setupNpm();
+
+    setupApplication();
+
+    outputSuccess("Setup completed successfully!");
+    exit(0);
+} catch (Exception $e) {
+    outputError("ERROR: {$e->getMessage()}");
+    exit(1);
+}
+
+/**
+ * show header
+ *
+ * @return void
+ */
+function showHeader(): void
+{
+    output("=====================================");
+    output(" Laravel Setup Script");
+    output("=====================================");
+    outputNewLine();
+}
+
+/**
+ * confirm setup environment
+ *
+ * @return void
+ */
+function confirmSetupEnvironment(): void
+{
+    if (php_sapi_name() !== "cli") {
+        outputError("This script must be run from the command line.");
+        exit(1);
+    }
+
+    if (!file_exists("artisan")) {
+        outputError("This script must be run from the root of a Laravel application.");
+        exit(1);
+    }
+
+    if (!is_writable(".")) {
+        outputError("The current directory is not writable. Please check permissions.");
+        exit(1);
+    }
+}
+
+/**
+ * setup composer
+ *
+ * @return void
+ */
+function setupComposer(): void
+{
+    outputInfo("Setting up Composer");
+
+    execute("composer install --no-interaction", "Installing dependencies");
+    execute("composer dump-autoload --no-interaction", "Optimizing autoloader");
+
+    outputNewLine();
+}
+
+/**
+ * setup npm
+ *
+ * @return void
+ */
+function setupNpm(): void
+{
+    outputInfo("Setting up NPM");
+
+    execute("npm clean-install", "Installing NPM packages");
+    execute("npm run build", "Building assets");
+
+    outputNewLine();
+}
+
+/**
+ * setup application
+ *
+ * @return void
+ */
+function setupApplication(): void
+{
+    outputInfo("Setting up Application");
+
+    if (!file_exists(".env")) {
+        copy(".env.example", ".env");
+        echo "  ✓ Copied .env.example to .env" . PHP_EOL;
+    } else {
+        echo "  ✓ .env already exists, skipping" . PHP_EOL;
+    }
+
+    execute("php artisan key:generate", "Generating application key");
+    execute("php artisan storage:link", "Creating storage link");
+
+    outputNewLine();
+}
+
+/*----------------------------------------*
+ * Execute
+ *----------------------------------------*/
+
+/**
+ * execute command
+ *
+ * @param string $command
+ * @param string $description
+ * @return void
+ */
+function execute(string $command, string $description): void
+{
+    $particles = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
+    $particleIndex = 0;
+
+    $process = proc_open(
+        $command . " 2>&1",
+        [
+            0 => ["pipe", "r"],
+            1 => ["pipe", "w"],
+            2 => ["pipe", "w"]
+        ],
+        $pipes
+    );
+
+    if (!is_resource($process)) throw new Exception("Failed to start command: {$command}");
+
+    fclose($pipes[0]);
+
+    stream_set_blocking($pipes[1], 0);
+    stream_set_blocking($pipes[2], 0);
+
+    $output = "";
+    $errorOutput = "";
+
+    while (true) {
+        $status = proc_get_status($process);
+
+        echo "\r  " . $particles[$particleIndex] . " {$description}";
+        $particleIndex = ($particleIndex + 1) % count($particles);
+
+        $stdout = stream_get_contents($pipes[1]);
+        $stderr = stream_get_contents($pipes[2]);
+
+        if ($stdout) $output .= $stdout;
+        if ($stderr) $errorOutput .= $stderr;
+
+        if (!$status["running"]) break;
+
+        usleep(100000);
+    }
+
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+
+    $exitCode = proc_close($process);
+
+    if ($exitCode === 0) {
+        echo "\r  ✓ {$description}" . PHP_EOL;
+        return;
+    }
+
+    echo "\r  ✗ {$description} (failed)" . PHP_EOL;
+
+    $allOutput = trim($output . $errorOutput);
+
+    throw new Exception("Command [{$command}] failed with code {$exitCode}:\n{$allOutput}");
+}
+
+/*----------------------------------------*
+ * Output
+ *----------------------------------------*/
+
+/**
+ * Output message
+ *
+ * @param string $message
+ * @return void
+ */
+function output(string $message): void
+{
+    echo $message . PHP_EOL;
+}
+
+/**
+ * output new line
+ *
+ * @return void
+ */
+function outputNewLine(): void
+{
+    echo PHP_EOL;
+}
+
+/**
+ * Output information message
+ *
+ * @param string $message
+ * @return void
+ */
+function outputInfo(string $message): void
+{
+    echo "\e[44m INFO \e[0m " . $message . PHP_EOL . PHP_EOL;
+}
+
+/**
+ * Output success message
+ *
+ * @param string $message
+ * @return void
+ */
+function outputSuccess(string $message): void
+{
+    echo "\e[42m SUCCESS \e[0m " . $message . PHP_EOL . PHP_EOL;
+}
+
+/**
+ * Output error message
+ *
+ * @param string $message
+ * @return void
+ */
+function outputError(string $message): void
+{
+    echo "\e[41m ERROR \e[0m " . $message . PHP_EOL . PHP_EOL;
+}

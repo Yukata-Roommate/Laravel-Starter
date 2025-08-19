@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Http\Requests\User\Entities;
+
+use YukataRm\Laravel\Resource\Request\Entity\UpdateEntity as BaseEntity;
+
+use App\Enums\User\RoleEnum;
+
+/**
+ * User Update Request Entity
+ */
+class UpdateEntity extends BaseEntity
+{
+    /**
+     * role
+     *
+     * @var \App\Enums\User\RoleEnum
+     */
+    public RoleEnum $role;
+
+    /**
+     * name
+     *
+     * @var string
+     */
+    public string $name;
+
+    /**
+     * email
+     *
+     * @var string|null
+     */
+    public string|null $email;
+
+    /**
+     * password
+     *
+     * @var string|null
+     */
+    public string|null $password;
+
+    /**
+     * bind property
+     *
+     * @return void
+     */
+    public function bind(): void
+    {
+        $this->role     = $this->enum("role", RoleEnum::class);
+        $this->name     = $this->string("name");
+        $this->email    = $this->nullableString("email");
+        $this->password = $this->nullableString("password");
+    }
+}

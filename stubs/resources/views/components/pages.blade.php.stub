@@ -1,0 +1,40 @@
+<x-yukata-rm::layout.pages :page-title="$pageTitle">
+    <x-slot name="usermenu">
+        <x-yr-starter::pages.usermenu.template />
+    </x-slot>
+
+    <x-slot name="sidebar">
+        {{-- User --}}
+        @can(UserAbilityEnum::USER_HIGHER->value)
+            <x-yukata-rm::layout.pages.sidebar.tree :title="__('title.sidebar.user')" prefix="user" icon="bi-person">
+                <x-yukata-rm::layout.pages.sidebar.item :href="route('user.index')" :title="__('title.sidebar.user_index')" icon="bi-list-ol"
+                    prefix="user_index" />
+
+                <x-yukata-rm::layout.pages.sidebar.item :href="route('user.create')" :title="__('title.sidebar.user_create')" icon="bi-cloud-plus"
+                    prefix="user_create" />
+            </x-yukata-rm::layout.pages.sidebar.tree>
+
+            <x-yukata-rm::layout.pages.sidebar.border />
+        @endcan
+    </x-slot>
+
+    @isset($breadcrumb)
+        <x-slot name="breadcrumb">
+            {{ $breadcrumb }}
+        </x-slot>
+    @endisset
+
+    @isset($footer)
+        <x-slot name="footer">
+            {{ $footer }}
+        </x-slot>
+    @endisset
+
+    @isset($modal)
+        <x-slot name="modal">
+            {{ $modal }}
+        </x-slot>
+    @endisset
+
+    {{ $slot }}
+</x-yukata-rm::layout.pages>

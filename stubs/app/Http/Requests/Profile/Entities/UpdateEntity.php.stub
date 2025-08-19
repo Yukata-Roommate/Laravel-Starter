@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Requests\Profile\Entities;
+
+use YukataRm\Laravel\Request\Entity\BaseEntity;
+
+/**
+ * Profile Update Request Entity
+ */
+class UpdateEntity extends BaseEntity
+{
+    /**
+     * name
+     *
+     * @var string
+     */
+    public string $name;
+
+    /**
+     * bind property
+     *
+     * @return void
+     */
+    public function bind(): void
+    {
+        $this->name = $this->string("name");
+    }
+}

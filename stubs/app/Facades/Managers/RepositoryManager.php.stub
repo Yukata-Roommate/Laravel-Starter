@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Facades\Managers;
+
+use App\Repositories\UserRepository;
+
+/**
+ * Repository Facade Manager
+ */
+class RepositoryManager
+{
+    /**
+     * get User Repository
+     *
+     * @return \App\Repositories\UserRepository
+     */
+    public function user(): UserRepository
+    {
+        return new UserRepository();
+    }
+}

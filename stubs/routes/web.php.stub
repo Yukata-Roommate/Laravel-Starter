@@ -1,0 +1,47 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers as Controller;
+
+use App\Enums\User\AbilityEnum;
+
+Route::auth();
+
+Route::get("/", function () {
+    return redirect()->route("home");
+});
+
+Route::middleware("auth")->group(function () {
+    Route::phpinfo();
+
+    Route::controller(Controller\HomeController::class)
+        ->prefix("home")
+        ->group(function () {
+            Route::get("/", "index")->name("home");
+        });
+
+    Route::controller(Controller\ProfileController::class)
+        ->prefix("profile")
+        ->as("profile.")
+        ->group(function () {
+            Route::get("/", "index")->name("index");
+            Route::get("edit", "edit")->name("edit");
+            Route::put("/", "update")->name("update");
+        });
+
+    Route::controller(Controller\UserController::class)
+        ->prefix("user")
+        ->as("user.")
+        ->middleware(AbilityEnum::USER_HIGHER->middleware())
+        ->group(function () {
+            Route::get("/", "index")->name("index");
+            Route::get("create", "create")->name("create");
+            Route::post("/", "store")->name("store");
+            Route::get("{id}", "show")->name("show");
+            Route::get("{id}/edit", "edit")->name("edit");
+            Route::put("{id}", "update")->name("update");
+            Route::delete("{id}", "destroy")->name("destroy");
+            Route::post("{id}/toggle", "toggle")->name("toggle");
+        });
+});

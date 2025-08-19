@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Providers;
+
+use YukataRm\Laravel\Provider\BladeDirectiveServiceProvider as ServiceProvider;
+
+use App\Enums\User\AbilityEnum;
+
+/**
+ * Blade Directive Service Provider
+ */
+class BladeDirectiveServiceProvider extends ServiceProvider
+{
+    /*----------------------------------------*
+     * If
+     *----------------------------------------*/
+
+    /**
+     * get if directives
+     *
+     * @return array<string, \Closure>
+     */
+    #[\Override]
+    protected function ifDirectives(): array
+    {
+        return [
+            "onlySystem"  => $this->onlySystemDirective(),
+            "adminHigher" => $this->adminHigherDirective(),
+            "userHigher"  => $this->userHigherDirective(),
+        ];
+    }
+
+    /**
+     * get onlySystem directive
+     *
+     * @return \Closure
+     */
+    protected function onlySystemDirective(): \Closure
+    {
+        return function (): bool {
+            return \Auth::user()->can(AbilityEnum::ONLY_SYSTEM->value);
+        };
+    }
+
+    /**
+     * get adminHigher directive
+     *
+     * @return \Closure
+     */
+    protected function adminHigherDirective(): \Closure
+    {
+        return function (): bool {
+            return \Auth::user()->can(AbilityEnum::ADMIN_HIGHER->value);
+        };
+    }
+
+    /**
+     * get userHigher directive
+     *
+     * @return \Closure
+     */
+    protected function userHigherDirective(): \Closure
+    {
+        return function (): bool {
+            return \Auth::user()->can(AbilityEnum::USER_HIGHER->value);
+        };
+    }
+}

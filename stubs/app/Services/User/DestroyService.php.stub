@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Services\User;
+
+use YukataRm\Laravel\Resource\Service\DestroyService as BaseService;
+
+use App\Http\Requests\User\Entities\DestroyEntity as Entity;
+
+use App\Facades\Repository;
+
+/**
+ * User Destroy Service
+ *
+ * @method static \Illuminate\Http\RedirectResponse handle(\App\Http\Requests\User\Entities\DestroyEntity $entity)
+ */
+class DestroyService extends BaseService
+{
+    /**
+     * name
+     *
+     * @var string
+     */
+    protected string $name = "user";
+
+    /**
+     * entity instance
+     *
+     * @var \App\Http\Requests\User\Entities\DestroyEntity
+     */
+    protected Entity $entity;
+
+    /**
+     * construct
+     *
+     * @param \App\Http\Requests\User\Entities\DestroyEntity $entity
+     * @return void
+     */
+    public function __construct(Entity $entity)
+    {
+        $this->entity = $entity;
+    }
+
+    /**
+     * destroy
+     *
+     * @return bool
+     */
+    protected function destroy(): bool
+    {
+        $user = Repository::user()->findRawById($this->entity->id);
+
+        return $this->runTransaction(function () use ($user) {
+            $user->delete();
+        });
+    }
+
+    /**
+     * destroy failure response params
+     *
+     * @return array<string, mixed>
+     */
+    protected function failureParams(): array
+    {
+        return [
+            "id" => $this->entity->id
+        ];
+    }
+}

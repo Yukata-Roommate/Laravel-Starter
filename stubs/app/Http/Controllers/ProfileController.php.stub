@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Services\Profile as Service;
+use App\Http\Requests\Profile as Request;
+
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+
+/**
+ * Profile Controller
+ */
+class ProfileController
+{
+    /**
+     * show index
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index(): View
+    {
+        return Service\IndexService::handle();
+    }
+
+    /**
+     * show edit form
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit(): View
+    {
+        return Service\EditService::handle();
+    }
+
+    /**
+     * update Profile
+     *
+     * @param \App\Http\Requests\Profile\UpdateRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request\UpdateRequest $request): RedirectResponse
+    {
+        return Service\UpdateService::handle($request->entity());
+    }
+}

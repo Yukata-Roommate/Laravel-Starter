@@ -1,0 +1,39 @@
+<x-pages :page-title="__('title.page.user.edit')">
+    <x-slot name="breadcrumb">
+        <x-breadcrumb.home />
+
+        <x-breadcrumb.user />
+
+        <x-yukata-rm::breadcrumb.active :title="__('title.breadcrumb.user.edit')" />
+    </x-slot>
+
+    <x-yukata-rm::form method="put" :action="route('user.update', $user->id)">
+        <x-yukata-rm::card>
+            <x-yukata-rm::form.errors />
+
+            <x-yukata-rm::form.group>
+                <p>{{ __('item.role') }}</p>
+
+                @foreach ($roles as $role)
+                    <x-yukata-rm::form.radio id="role-{{ $role->value }}" name="role" :label="$role->label()"
+                        :value="$role->value" :checked="old('role', $user->role->value) === $role->value" :is-inline="true" />
+                @endforeach
+            </x-yukata-rm::form.group>
+
+            <x-yukata-rm::form.input id="name" name="name" :label="__('item.name')" :value="old('name', $user->name)" />
+
+            <x-yukata-rm::form.input id="email" name="email" type="email" :label="__('item.email')" :value="old('email')" />
+
+            <x-yukata-rm::form.input id="password" name="password" type="password" :label="__('item.password')"
+                :value="old('password')" />
+
+            <x-slot name="footer">
+                <x-yukata-rm::button.group position="right">
+                    <x-yukata-rm::button color="success" :outline="true" type="submit">
+                        {{ __('button.update') }}
+                    </x-yukata-rm::button>
+                </x-yukata-rm::button.group>
+            </x-slot>
+        </x-yukata-rm::card>
+    </x-yukata-rm::form>
+</x-pages>

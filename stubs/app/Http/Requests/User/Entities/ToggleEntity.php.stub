@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Requests\User\Entities;
+
+use YukataRm\Laravel\Request\Entity\BaseEntity;
+
+/**
+ * User Toggle Request Entity
+ */
+class ToggleEntity extends BaseEntity
+{
+    /**
+     * id
+     *
+     * @var int
+     */
+    public int $id;
+
+    /**
+     * bind property
+     *
+     * @return void
+     */
+    public function bind(): void
+    {
+        $this->id = $this->int("id");
+    }
+}

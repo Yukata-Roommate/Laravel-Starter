@@ -1,0 +1,77 @@
+<?php
+
+namespace Database\Seeders\Dummy;
+
+use YukataRm\Laravel\Db\Seeder\BulkInsertSeeder;
+
+use App\Models\User;
+
+use Illuminate\Support\Collection;
+use App\Enums\User\RoleEnum;
+
+use Illuminate\Support\Facades\Hash;
+
+/**
+ * User Table Seeder
+ */
+class UserTableSeeder extends BulkInsertSeeder
+{
+    /**
+     * model class
+     *
+     * @var string
+     */
+    protected string $modelClass = User::class;
+
+    /**
+     * identifiers
+     *
+     * @return array<mixed>
+     */
+    protected function identifiers(): array
+    {
+        return range(1, ($this->roleCount() * 2));
+    }
+
+    /**
+     * data
+     *
+     * @param mixed $identifier
+     * @return array<string, mixed>|\Illuminate\Support\Collection
+     */
+    protected function data(mixed $identifier): Collection
+    {
+        return collect([
+            "name"      => "User {$identifier}",
+            "email"     => "test{$identifier}@example.com",
+            "password"  => Hash::make("password{$identifier}"),
+            "role"      => $this->role($identifier),
+            "is_active" => $identifier <= $this->roleCount(),
+        ]);
+    }
+
+    /**
+     * get role count
+     *
+     * @return int
+     */
+    protected function roleCount(): int
+    {
+        return RoleEnum::count() - 1;
+    }
+
+    /**
+     * get User Role Enum
+     *
+     * @param int $identifier
+     * @return \App\Enums\User\RoleEnum
+     */
+    protected function role(int $identifier): RoleEnum
+    {
+        $remainder = $identifier % $this->roleCount();
+
+        $index = $remainder === 0 ? $this->roleCount() : $remainder;
+
+        return RoleEnum::caseAt($index);
+    }
+}

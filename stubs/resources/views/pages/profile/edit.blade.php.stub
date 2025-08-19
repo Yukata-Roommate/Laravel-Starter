@@ -1,0 +1,25 @@
+<x-pages :page-title="__('title.page.profile.edit')">
+    <x-slot name="breadcrumb">
+        <x-breadcrumb.home />
+
+        <x-breadcrumb.profile />
+
+        <x-yukata-rm::breadcrumb.active :title="__('title.breadcrumb.profile.edit')" />
+    </x-slot>
+
+    <x-yukata-rm::form method="put" :action="route('profile.update', $user->id)">
+        <x-yukata-rm::card>
+            <x-yukata-rm::form.errors />
+
+            <x-yukata-rm::form.input id="name" name="name" :label="__('item.name')" :value="old('name', $user->name)" />
+
+            <x-slot name="footer">
+                <x-yukata-rm::button.group position="right">
+                    <x-yukata-rm::button color="success" :outline="true" type="submit">
+                        {{ __('button.update') }}
+                    </x-yukata-rm::button>
+                </x-yukata-rm::button.group>
+            </x-slot>
+        </x-yukata-rm::card>
+    </x-yukata-rm::form>
+</x-pages>

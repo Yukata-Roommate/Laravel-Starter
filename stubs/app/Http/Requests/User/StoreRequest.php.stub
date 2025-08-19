@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Requests\User;
+
+use YukataRm\Laravel\Resource\Request\StoreRequest as BaseRequest;
+use YukataRm\Laravel\Validation\Facades\Rules;
+
+use App\Http\Requests\User\Entities\StoreEntity as Entity;
+
+use App\Enums\User\RoleEnum;
+
+/**
+ * User Store Request
+ */
+class StoreRequest extends BaseRequest
+{
+    /**
+     * entity class
+     *
+     * @var string
+     */
+    protected string $entity = Entity::class;
+
+    /**
+     * get Validation Rules array
+     *
+     * @return array<\YukataRm\Laravel\Validation\Interfaces\Rules\ValidationRulesInterface>
+     */
+    protected function validations(): array
+    {
+        return [
+            Rules::required("role")->enum(RoleEnum::class),
+            Rules::required("name")->string(),
+            Rules::required("email")->email()->unique("users"),
+            Rules::required("password")->min(8)->max(16),
+        ];
+    }
+}

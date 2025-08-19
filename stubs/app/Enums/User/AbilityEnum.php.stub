@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Enums\User;
+
+use YukataRm\Enum\BackedExtension;
+
+use App\Enums\User\RoleEnum;
+
+/**
+ * User Ability Enum
+ */
+enum AbilityEnum: string
+{
+    use BackedExtension;
+
+    case ONLY_SYSTEM  = "only_system";
+    case ADMIN_HIGHER = "admin_higher";
+    case USER_HIGHER  = "user_higher";
+
+    /**
+     * get middleware
+     *
+     * @return string
+     */
+    public function middleware(): string
+    {
+        return "can:{$this->value}";
+    }
+
+    /**
+     * whether is role higher
+     *
+     * @param \App\Enums\User\RoleEnum $role
+     * @return bool
+     */
+    public function check(RoleEnum $role): bool
+    {
+        return match ($this) {
+            self::ONLY_SYSTEM  => $this->isSystem($role),
+            self::ADMIN_HIGHER => $this->isAdminHigher($role),
+            self::USER_HIGHER  => $this->isUserHigher($role),
+        };
+    }
+
+    /**
+     * whether is system
+     *
+     * @param \App\Enums\User\RoleEnum $role
+     * @return bool
+     */
+    public function isSystem(RoleEnum $role): bool
+    {
+        return $role->isSystem();
+    }
+
+    /**
+     * whether is admin higher
+     *
+     * @param \App\Enums\User\RoleEnum $role
+     * @return bool
+     */
+    public function isAdminHigher(RoleEnum $role): bool
+    {
+        return $role->value < RoleEnum::ADMIN->value;
+    }
+
+    /**
+     * whether is user higher
+     *
+     * @param \App\Enums\User\RoleEnum $role
+     * @return bool
+     */
+    public function isUserHigher(RoleEnum $role): bool
+    {
+        return $role->value < RoleEnum::USER->value;
+    }
+}

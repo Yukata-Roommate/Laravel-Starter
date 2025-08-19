@@ -1,0 +1,102 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Services\User as Service;
+use App\Http\Requests\User as Request;
+
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+
+/**
+ * User Controller
+ */
+class UserController
+{
+    /**
+     * show index
+     *
+     * @param \App\Http\Requests\User\IndexRequest $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request\IndexRequest $request): View
+    {
+        return Service\IndexService::handle($request->entity());
+    }
+
+    /**
+     * show create form
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create(): View
+    {
+        return Service\CreateService::handle();
+    }
+
+    /**
+     * store user
+     *
+     * @param \App\Http\Requests\User\StoreRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request\StoreRequest $request): RedirectResponse
+    {
+        return Service\StoreService::handle($request->entity());
+    }
+
+    /**
+     * show user
+     *
+     * @param \App\Http\Requests\User\ShowRequest $request
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function show(Request\ShowRequest $request): View|RedirectResponse
+    {
+        return Service\ShowService::handle($request->entity());
+    }
+
+    /**
+     * show edit form
+     *
+     * @param \App\Http\Requests\User\EditRequest $request
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function edit(Request\EditRequest $request): View|RedirectResponse
+    {
+        return Service\EditService::handle($request->entity());
+    }
+
+    /**
+     * update user
+     *
+     * @param \App\Http\Requests\User\UpdateRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request\UpdateRequest $request): RedirectResponse
+    {
+        return Service\UpdateService::handle($request->entity());
+    }
+
+    /**
+     * destroy user
+     *
+     * @param \App\Http\Requests\User\DestroyRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Request\DestroyRequest $request): RedirectResponse
+    {
+        return Service\DestroyService::handle($request->entity());
+    }
+
+    /**
+     * toggle user is_active
+     *
+     * @param \App\Http\Requests\User\ToggleRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function toggle(Request\ToggleRequest $request): RedirectResponse
+    {
+        return Service\ToggleService::handle($request->entity());
+    }
+}

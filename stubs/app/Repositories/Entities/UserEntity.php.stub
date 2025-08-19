@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Repositories\Entities;
+
+use YukataRm\Laravel\Repository\Entity\BaseEntity;
+
+use YukataRm\Laravel\Repository\Interfaces\EntityInterface;
+
+use YukataRm\Laravel\Repository\Entity\Id;
+use YukataRm\Laravel\Repository\Entity\Timestamps;
+use YukataRm\Laravel\Repository\Entity\IsActive;
+
+use App\Enums\User\RoleEnum;
+
+/**
+ * User Entity
+ */
+class UserEntity extends BaseEntity implements EntityInterface
+{
+    use Id, Timestamps, IsActive;
+
+    /**
+     * name
+     *
+     * @var string
+     */
+    public string $name;
+
+    /**
+     * email
+     *
+     * @var string
+     */
+    public string $email;
+
+    /**
+     * role
+     *
+     * @var \App\Enums\User\RoleEnum
+     */
+    public RoleEnum $role;
+
+    /**
+     * bind Model properties
+     *
+     * @return void
+     */
+    protected function bind(): void
+    {
+        $this->setId();
+        $this->setTimestamps();
+        $this->setIsActive();
+
+        $this->name  = $this->string("name");
+        $this->email = $this->string("email");
+        $this->role  = $this->enum("role", RoleEnum::class);
+    }
+}

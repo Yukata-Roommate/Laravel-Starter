@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Facades;
+
+use Illuminate\Support\Facades\Facade;
+
+/**
+ * Repository Facade
+ *
+ * @method static \App\Repositories\UserRepository user()
+ *
+ * @see \App\Facades\Managers\RepositoryManager
+ */
+class Repository extends Facade
+{
+    /**
+     * Facade Accessor
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor(): string
+    {
+        return static::class;
+    }
+}

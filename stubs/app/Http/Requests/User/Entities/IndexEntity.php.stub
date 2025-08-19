@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Http\Requests\User\Entities;
+
+use YukataRm\Laravel\Resource\Request\Entity\IndexEntity as BaseEntity;
+
+use App\Enums\User\RoleEnum;
+
+/**
+ * User Index Request Entity
+ */
+class IndexEntity extends BaseEntity
+{
+    /**
+     * role
+     *
+     * @var \App\Enums\User\RoleEnum|null
+     */
+    public RoleEnum|null $role;
+
+    /**
+     * state
+     *
+     * @var int|null
+     */
+    public int|null $state;
+
+    /**
+     * name
+     *
+     * @var string|null
+     */
+    public string|null $name;
+
+    /**
+     * bind property
+     *
+     * @return void
+     */
+    public function bind(): void
+    {
+        $this->role  = $this->nullableEnum("role", RoleEnum::class);
+        $this->state = $this->nullableInt("state");
+        $this->name  = $this->nullableString("name");
+    }
+}

@@ -1,0 +1,101 @@
+<x-pages :page-title="__('title.page.user.index')">
+    <x-slot name="breadcrumb">
+        <x-breadcrumb.home />
+
+        <x-yukata-rm::breadcrumb.active :title="__('title.breadcrumb.user.index')" />
+    </x-slot>
+
+    <x-yukata-rm::card.pagination :title="__('title.card.user.index')" :paginator="$users">
+        <x-slot name="cardHeader">
+            <x-yukata-rm::button.group position="right">
+                <x-yukata-rm::modal.button.open modal-id="searchUserModal" :outline="true" :small="true">
+                    {{ __('button.search') }}
+                </x-yukata-rm::modal.button.open>
+            </x-yukata-rm::button.group>
+        </x-slot>
+
+        @if ($users->isNotEmpty())
+            <x-slot name="tableHeader">
+                <x-yukata-rm::table.row>
+                    <x-yukata-rm::table.header scope="col" class="col-4">
+                        {{ __('item.name') }}
+                    </x-yukata-rm::table.header>
+
+                    <x-yukata-rm::table.header scope="col" class="col-3">
+                        {{ __('item.role') }}
+                    </x-yukata-rm::table.header>
+
+                    <x-yukata-rm::table.header scope="col" class="col-2">
+                        {{ __('item.state') }}
+                    </x-yukata-rm::table.header>
+
+                    <x-yukata-rm::table.header scope="col" class="col-3"></x-yukata-rm::table.header>
+                </x-yukata-rm::table.row>
+            </x-slot>
+
+            <x-slot name="tableBody">
+                @foreach ($users as $user)
+                    <x-yukata-rm::table.row class="{{ $user->isActive ? '' : 'table-danger' }}">
+                        <x-yukata-rm::table.data>
+                            {{ $user->name }}
+                        </x-yukata-rm::table.data>
+
+                        <x-yukata-rm::table.data>
+                            {{ $user->role->label() }}
+                        </x-yukata-rm::table.data>
+
+                        <x-yukata-rm::table.data>
+                            {{ $user->isActive ? __('item.active') : __('item.deactive') }}
+                        </x-yukata-rm::table.data>
+
+                        <x-yukata-rm::table.data>
+                            <x-yukata-rm::button.link color="info" :outline="true" :block="true"
+                                :href="route('user.show', $user->id)">
+                                {{ __('button.show') }}
+                            </x-yukata-rm::button.link>
+                        </x-yukata-rm::table.data>
+                    </x-yukata-rm::table.row>
+                @endforeach
+            </x-slot>
+        @endif
+    </x-yukata-rm::card.pagination>
+
+    <x-slot name="modal">
+        <x-yukata-rm::form method="get" :action="route('user.index')" :csrf="false">
+            <x-yukata-rm::modal modal-id="searchUserModal" :title="__('title.modal.user.search')" :is-strict="true">
+                <x-yukata-rm::form.group>
+                    <p>{{ __('item.role') }}</p>
+
+                    @foreach ($roles as $role)
+                        <x-yukata-rm::form.radio id="role-{{ $role->value }}" name="role" :label="$role->label()"
+                            :value="$role->value" :checked="request('role') === $role->value" :is-inline="true" />
+                    @endforeach
+                </x-yukata-rm::form.group>
+
+                <x-yukata-rm::form.group>
+                    <p>{{ __('item.state') }}</p>
+
+                    <x-yukata-rm::form.radio id="state-active" name="state" :label="__('item.active')" :value="1"
+                        :checked="intval(request('state')) === 1" :is-inline="true" />
+
+                    <x-yukata-rm::form.radio id="state-deactivate" name="state" :label="__('item.deactive')" :value="0"
+                        :checked="!is_null(request('state')) && intval(request('state')) === 0" :is-inline="true" />
+                </x-yukata-rm::form.group>
+
+                <x-yukata-rm::form.input id="name" name="name" :label="__('item.name')" :value="request('name')" />
+
+                <x-slot name="footer">
+                    <x-yukata-rm::button.group position="right">
+                        <x-yukata-rm::button color="info" :outline="true" type="submit" class="me-3">
+                            {{ __('button.search') }}
+                        </x-yukata-rm::button>
+
+                        <x-yukata-rm::modal.button.close :outline="true">
+                            {{ __('button.close') }}
+                        </x-yukata-rm::modal.button.close>
+                    </x-yukata-rm::button.group>
+                </x-slot>
+            </x-yukata-rm::modal>
+        </x-yukata-rm::form>
+    </x-slot>
+</x-pages>

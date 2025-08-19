@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Requests\User;
+
+use YukataRm\Laravel\Resource\Request\UpdateRequest as BaseRequest;
+use YukataRm\Laravel\Validation\Facades\Rules;
+
+use App\Http\Requests\User\Entities\UpdateEntity as Entity;
+
+use App\Enums\User\RoleEnum;
+
+/**
+ * User Update Request
+ */
+class UpdateRequest extends BaseRequest
+{
+    /**
+     * table name
+     *
+     * @var string
+     */
+    protected string $tableName = "users";
+
+    /**
+     * entity class
+     *
+     * @var string
+     */
+    protected string $entity = Entity::class;
+
+    /**
+     * get Validation Rules array
+     *
+     * @return array<\YukataRm\Laravel\Validation\Interfaces\Rules\ValidationRulesInterface>
+     */
+    protected function validations(): array
+    {
+        return [
+            Rules::required("role")->enum(RoleEnum::class),
+            Rules::required("name")->string(),
+            Rules::nullable("email")->email()->unique("users"),
+            Rules::nullable("password")->min(8)->max(16),
+        ];
+    }
+}

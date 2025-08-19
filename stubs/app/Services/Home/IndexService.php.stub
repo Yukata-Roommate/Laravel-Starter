@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Services\Home;
+
+use YukataRm\Laravel\Service\HandleService;
+
+use Illuminate\View\View;
+
+/**
+ * Home Index Service
+ *
+ * @method static \Illuminate\View\View handle()
+ */
+final class IndexService extends HandleService
+{
+    /*----------------------------------------*
+     * Method
+     *----------------------------------------*/
+
+    /**
+     * execute service
+     *
+     * @return \Illuminate\View\View
+     */
+    public function execute(): View
+    {
+        return view("pages.home.index");
+    }
+}

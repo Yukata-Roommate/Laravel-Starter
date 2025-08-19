@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Requests\User;
+
+use YukataRm\Laravel\Request\BaseRequest;
+use YukataRm\Laravel\Validation\Facades\Rules;
+
+use App\Http\Requests\User\Entities\ToggleEntity as Entity;
+
+/**
+ * User Toggle Request
+ */
+class ToggleRequest extends BaseRequest
+{
+    /**
+     * entity class
+     *
+     * @var string
+     */
+    protected string $entity = Entity::class;
+
+    /**
+     * additional data
+     *
+     * @var array<string>
+     */
+    protected array $additionalData = ["id"];
+
+    /**
+     * get Validation Rules array
+     *
+     * @return array<\YukataRm\Laravel\Validation\Interfaces\Rules\ValidationRulesInterface>
+     */
+    protected function validations(): array
+    {
+        return [
+            Rules::required("id")->id("users"),
+        ];
+    }
+}

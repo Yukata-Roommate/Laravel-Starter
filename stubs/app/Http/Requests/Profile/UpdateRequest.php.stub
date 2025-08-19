@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Http\Requests\Profile;
+
+use YukataRm\Laravel\Request\BaseRequest;
+use YukataRm\Laravel\Validation\Facades\Rules;
+
+use App\Http\Requests\Profile\Entities\UpdateEntity as Entity;
+
+/**
+ * Profile Update Request
+ */
+class UpdateRequest extends BaseRequest
+{
+    /**
+     * entity class
+     *
+     * @var string
+     */
+    protected string $entity = Entity::class;
+
+    /**
+     * get Validation Rules array
+     *
+     * @return array<\YukataRm\Laravel\Validation\Interfaces\Rules\ValidationRulesInterface>
+     */
+    protected function validations(): array
+    {
+        return [
+            Rules::required("name")->string(),
+        ];
+    }
+}

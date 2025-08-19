@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Services\User;
+
+use YukataRm\Laravel\Resource\Service\StoreService as BaseService;
+
+use App\Http\Requests\User\Entities\StoreEntity as Entity;
+use App\Models\User as Model;
+
+/**
+ * User Store Service
+ *
+ * @method static \Illuminate\Http\RedirectResponse handle(\App\Http\Requests\User\Entities\StoreEntity $entity)
+ */
+class StoreService extends BaseService
+{
+    /**
+     * name
+     *
+     * @var string
+     */
+    protected string $name = "user";
+
+    /**
+     * entity instance
+     *
+     * @var \App\Http\Requests\User\Entities\StoreEntity
+     */
+    protected Entity $entity;
+
+    /**
+     * model instance
+     *
+     * @var \App\Models\User
+     */
+    protected Model $model;
+
+    /**
+     * construct
+     *
+     * @param \App\Http\Requests\User\Entities\StoreEntity $entity
+     * @return void
+     */
+    public function __construct(Entity $entity)
+    {
+        $this->entity = $entity;
+    }
+
+    /**
+     * store
+     *
+     * @return bool
+     */
+    protected function store(): bool
+    {
+        $user = new Model();
+
+        $user->name     = $this->entity->name;
+        $user->email    = $this->entity->email;
+        $user->password = $this->entity->password;
+        $user->role     = $this->entity->role;
+
+        $result = $this->runTransaction(function () use ($user) {
+            $user->save();
+        });
+
+        $this->model = $user;
+
+        return $result;
+    }
+
+    /**
+     * store success response params
+     *
+     * @return array<string, mixed>
+     */
+    protected function successParams(): array
+    {
+        return [
+            "id" => $this->model->id
+        ];
+    }
+
+    /**
+     * store failure response input
+     *
+     * @return array<string, mixed>
+     */
+    protected function failureInput(): array
+    {
+        return $this->entity->data();
+    }
+}

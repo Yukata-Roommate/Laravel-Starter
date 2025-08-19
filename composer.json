@@ -1,0 +1,102 @@
+{
+    "name": "yukata-roommate/laravel-starter",
+    "description": "Accelerate development of Laravel applications",
+    "version": "1.0.0",
+    "keywords": [
+        "yukata-roommate",
+        "php",
+        "laravel",
+        "package",
+        "starter",
+        "laravel-starter"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yukata Roommate"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "YukataRm\\Laravel\\Starter\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "YukataRm\\Laravel\\Starter\\ServiceProvider"
+            ],
+            "aliases": {
+                "Cache": "YukataRm\\Cache\\Proxies\\Cache",
+                "Cli": "YukataRm\\Cli\\Proxies\\Cli",
+                "Crypto": "YukataRm\\Crypto\\Proxies\\Crypto",
+                "DbDumper": "YukataRm\\Db\\Proxies\\Dumper",
+                "FileOperator": "YukataRm\\File\\Proxies\\Operator",
+                "FilePathInfo": "YukataRm\\File\\Proxies\\PathInfo",
+                "FileReader": "YukataRm\\File\\Proxies\\Reader",
+                "FileWriter": "YukataRm\\File\\Proxies\\Writer",
+                "CsvReader": "YukataRm\\File\\Proxies\\Csv\\Reader",
+                "CsvWriter": "YukataRm\\File\\Proxies\\Csv\\Writer",
+                "MarkdownWriter": "YukataRm\\File\\Proxies\\Markdown\\Writer",
+                "Cookie": "YukataRm\\Global\\Proxies\\Cookie",
+                "Env": "YukataRm\\Global\\Proxies\\Env",
+                "Files": "YukataRm\\Global\\Proxies\\Files",
+                "Get": "YukataRm\\Global\\Proxies\\Get",
+                "Globals": "YukataRm\\Global\\Proxies\\Globals",
+                "Post": "YukataRm\\Global\\Proxies\\Post",
+                "Server": "YukataRm\\Global\\Proxies\\Server",
+                "Session": "YukataRm\\Global\\Proxies\\Session",
+                "PHPInfo": "YukataRm\\Info\\Proxies\\PHPInfo",
+                "Math": "YukataRm\\Math\\Proxies\\Math",
+                "Monitor": "YukataRm\\Monitor\\Proxies\\Monitor",
+                "Random": "YukataRm\\Random\\Proxies\\Random",
+                "Twilio": "YukataRm\\Sms\\Proxies\\Twilio",
+                "Text": "YukataRm\\Text\\Proxies\\Text",
+                "Time": "YukataRm\\Time\\Proxies\\Time"
+            }
+        }
+    },
+    "require": {
+        "php": ">=8.3.0",
+        "laravel/framework": "^11.0 || ^12.0",
+        "yukata-roommate/cache": "^1.0.0",
+        "yukata-roommate/cli": "^1.0.0",
+        "yukata-roommate/crypto": "^1.0.0",
+        "yukata-roommate/db": "^1.0.0",
+        "yukata-roommate/entity": "^1.0.0",
+        "yukata-roommate/enum": "^1.0.0",
+        "yukata-roommate/env": "^1.0.0",
+        "yukata-roommate/file": "^1.0.0",
+        "yukata-roommate/global": "^1.0.0",
+        "yukata-roommate/info": "^1.0.0",
+        "yukata-roommate/laravel-auth": "^1.0.0",
+        "yukata-roommate/laravel-command": "^1.0.0",
+        "yukata-roommate/laravel-db": "^1.0.0",
+        "yukata-roommate/laravel-deploy": "^1.0.0",
+        "yukata-roommate/laravel-exception": "^1.0.0",
+        "yukata-roommate/laravel-frontend": "^1.0.0",
+        "yukata-roommate/laravel-http": "^1.0.0",
+        "yukata-roommate/laravel-lang": "^1.0.0",
+        "yukata-roommate/laravel-log": "^1.0.0",
+        "yukata-roommate/laravel-logging": "^1.0.0",
+        "yukata-roommate/laravel-mail": "^1.0.0",
+        "yukata-roommate/laravel-middleware": "^1.0.0",
+        "yukata-roommate/laravel-model": "^1.0.0",
+        "yukata-roommate/laravel-provider": "^1.0.0",
+        "yukata-roommate/laravel-repository": "^1.0.0",
+        "yukata-roommate/laravel-request": "^1.0.0",
+        "yukata-roommate/laravel-resource": "^1.0.0",
+        "yukata-roommate/laravel-route": "^1.0.0",
+        "yukata-roommate/laravel-service": "^1.0.0",
+        "yukata-roommate/laravel-validation": "^1.0.0",
+        "yukata-roommate/laravel-view": "^1.0.0",
+        "yukata-roommate/log": "^1.0.0",
+        "yukata-roommate/math": "^1.0.0",
+        "yukata-roommate/monitor": "^1.0.0",
+        "yukata-roommate/proxy": "^1.0.0",
+        "yukata-roommate/random": "^1.0.0",
+        "yukata-roommate/sms": "^1.0.0",
+        "yukata-roommate/text": "^1.0.0",
+        "yukata-roommate/time": "^1.0.0"
+    }
+}

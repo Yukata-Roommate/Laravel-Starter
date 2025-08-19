@@ -1,0 +1,43 @@
+<?php
+
+use YukataRm\Laravel\Db\Migration\BaseMigration;
+
+use Illuminate\Database\Schema\Blueprint;
+
+return new class extends BaseMigration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        $this->createTableIfNotExists("users", function (Blueprint $table) {
+            $table->id();
+            $table->string("name");
+            $table->string("email")->unique();
+            $table->string("password");
+            $table->unsignedInteger("role");
+            $table->isActive();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        $this->createTableIfNotExists("sessions", function (Blueprint $table) {
+            $table->string("id")->primary();
+            $table->foreignId("user_id")->nullable()->index();
+            $table->string("ip_address", 45)->nullable();
+            $table->text("user_agent")->nullable();
+            $table->longText("payload");
+            $table->integer("last_activity")->index();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        $this->dropTableIfExists("users");
+        $this->dropTableIfExists("sessions");
+    }
+};

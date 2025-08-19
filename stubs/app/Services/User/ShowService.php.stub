@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Services\User;
+
+use YukataRm\Laravel\Resource\Service\ShowService as BaseService;
+
+use App\Http\Requests\User\Entities\ShowEntity as Entity;
+
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+
+use App\Facades\Repository;
+
+/**
+ * User Show Service
+ *
+ * @method static \Illuminate\View\View|\Illuminate\Http\RedirectResponse handle(\App\Http\Requests\User\Entities\ShowEntity $entity)
+ */
+class ShowService extends BaseService
+{
+    /**
+     * name
+     *
+     * @var string
+     */
+    protected string $name = "user";
+
+    /**
+     * entity instance
+     *
+     * @var \App\Http\Requests\User\Entities\ShowEntity
+     */
+    protected Entity $entity;
+
+    /**
+     * construct
+     *
+     * @param \App\Http\Requests\User\Entities\ShowEntity $entity
+     * @return void
+     */
+    public function __construct(Entity $entity)
+    {
+        $this->entity = $entity;
+    }
+
+    /**
+     * execute service
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function execute(): View|RedirectResponse
+    {
+        $user = Repository::user()->findById($this->entity->id);
+
+        return $this->view(compact("user"));
+    }
+}

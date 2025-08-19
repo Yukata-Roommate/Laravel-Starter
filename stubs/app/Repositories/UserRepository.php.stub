@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Repositories;
+
+use YukataRm\Laravel\Repository\SearchRepository as BaseRepository;
+
+use YukataRm\Laravel\Repository\Interfaces\ModelInterface;
+use App\Models\User as Model;
+use App\Repositories\Entities\UserEntity as Entity;
+
+use Illuminate\Support\Collection;
+
+use Illuminate\Support\Facades\Auth;
+
+/**
+ * User Repository
+ */
+class UserRepository extends BaseRepository
+{
+    /**
+     * get Model
+     *
+     * @return \YukataRm\Laravel\Repository\Interfaces\ModelInterface
+     */
+    protected function model(): ModelInterface
+    {
+        return new Model();
+    }
+
+    /*----------------------------------------*
+     * Common
+     *----------------------------------------*/
+
+    /**
+     * common query
+     *
+     * @return static
+     */
+    protected function commonQuery(): static
+    {
+        return $this
+            ->whereIn("role", Auth::user()->role->lowerThan())
+            ->orderBy("is_active", "desc")
+            ->orderBy("id", "desc");
+    }
+
+    /**
+     * get all
+     *
+     * @return \Illuminate\Support\Collection<\App\Repositories\Entities\UserEntity>
+     */
+    public function all(): Collection
+    {
+        return $this->allRecords();
+    }
+
+    /**
+     * find raw by id
+     *
+     * @param int $id
+     * @return \App\Models\User|null
+     */
+    public function findRawById(int $id): Model|null
+    {
+        return $this->findRecordRawByPrimaryKey($id);
+    }
+
+    /**
+     * find by id
+     *
+     * @param int $id
+     * @return \App\Repositories\Entities\UserEntity|null
+     */
+    public function findById(int $id): Entity|null
+    {
+        return $this->findRecordByPrimaryKey($id);
+    }
+
+    /*----------------------------------------*
+     * Search
+     *----------------------------------------*/
+
+    /**
+     * search query
+     *
+     * @param array<string, mixed> $search
+     * @return static
+     */
+    protected function searchQuery(array $search): static
+    {
+        $query = $this->commonQuery();
+
+        if (isset($search["role"])) {
+            $query->where("role", $search["role"]);
+        }
+
+        if (isset($search["state"])) {
+            $query->where("is_active", $search["state"]);
+        }
+
+        if (isset($search["name"])) {
+            $query->where("name", "like", "%{$search["name"]}%");
+        }
+
+        return $query;
+    }
+
+    /**
+     * search raw
+     *
+     * @param array<string, mixed> $search
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return \Illuminate\Support\Collection<\App\Models\User>
+     */
+    public function searchRaw(array $search, int|null $limit = null, int|null $offset = null): Collection
+    {
+        return $this->searchRawRecords($search, $limit, $offset);
+    }
+
+    /**
+     * search
+     *
+     * @param array<string, mixed> $search
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return \Illuminate\Support\Collection<\App\Repositories\Entities\UserEntity>
+     */
+    public function search(array $search, int|null $limit = null, int|null $offset = null): Collection
+    {
+        return $this->searchRecords($search, $limit, $offset);
+    }
+}

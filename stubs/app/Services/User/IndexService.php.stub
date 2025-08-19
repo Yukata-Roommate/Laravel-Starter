@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Services\User;
+
+use YukataRm\Laravel\Resource\Service\IndexService as BaseService;
+
+use App\Http\Requests\User\Entities\IndexEntity as Entity;
+
+use Illuminate\View\View;
+
+use App\Facades\Repository;
+
+/**
+ * User Index Service
+ *
+ * @method static \Illuminate\View\View handle(\App\Http\Requests\User\Entities\IndexEntity $entity)
+ */
+class IndexService extends BaseService
+{
+    /**
+     * name
+     *
+     * @var string
+     */
+    protected string $name = "user";
+
+    /**
+     * entity instance
+     *
+     * @var \App\Http\Requests\User\Entities\IndexEntity
+     */
+    protected Entity $entity;
+
+    /**
+     * construct
+     *
+     * @param \App\Http\Requests\User\Entities\IndexEntity $entity
+     * @return void
+     */
+    public function __construct(Entity $entity)
+    {
+        $this->entity = $entity;
+    }
+
+    /**
+     * execute service
+     *
+     * @return \Illuminate\View\View
+     */
+    public function execute(): View
+    {
+        $collection = Repository::user()->search(
+            $this->entity->all(),
+            $this->entity->pageItemLimit(),
+            $this->entity->offset()
+        );
+
+        $count = Repository::user()->searchCount(
+            $this->entity->all()
+        );
+
+        $users = $this->paginator($collection, $count, $this->entity->pageItemLimit());
+
+        $roles = $this->user()->role->lowerThan();
+
+        return $this->view(compact("users", "roles"));
+    }
+}

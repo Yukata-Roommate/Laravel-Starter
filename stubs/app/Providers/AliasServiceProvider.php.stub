@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Providers;
+
+use YukataRm\Laravel\Provider\AliasServiceProvider as ServiceProvider;
+
+use App\Enums\User\AbilityEnum;
+
+/**
+ * Alias Service Provider
+ */
+class AliasServiceProvider extends ServiceProvider
+{
+    /**
+     * get aliases
+     *
+     * @return array<string, string>
+     */
+    protected function aliases(): array
+    {
+        return [
+            "UserAbilityEnum" => AbilityEnum::class,
+        ];
+    }
+}

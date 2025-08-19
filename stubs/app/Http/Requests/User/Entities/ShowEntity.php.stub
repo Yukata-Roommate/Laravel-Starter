@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Http\Requests\User\Entities;
+
+use YukataRm\Laravel\Resource\Request\Entity\ShowEntity as BaseEntity;
+
+/**
+ * User Show Request Entity
+ */
+class ShowEntity extends BaseEntity {}

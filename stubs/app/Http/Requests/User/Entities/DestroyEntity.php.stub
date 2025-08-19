@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Http\Requests\User\Entities;
+
+use YukataRm\Laravel\Resource\Request\Entity\DestroyEntity as BaseEntity;
+
+/**
+ * User Destroy Request Entity
+ */
+class DestroyEntity extends BaseEntity {}

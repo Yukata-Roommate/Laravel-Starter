@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Requests\User;
+
+use YukataRm\Laravel\Resource\Request\ShowRequest as BaseRequest;
+
+use App\Http\Requests\User\Entities\ShowEntity as Entity;
+
+/**
+ * User Show Request
+ */
+class ShowRequest extends BaseRequest
+{
+    /**
+     * table name
+     *
+     * @var string
+     */
+    protected string $tableName = "users";
+
+    /**
+     * entity class
+     *
+     * @var string
+     */
+    protected string $entity = Entity::class;
+}
