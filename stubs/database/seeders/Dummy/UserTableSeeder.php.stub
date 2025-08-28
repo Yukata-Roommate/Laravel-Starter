@@ -72,6 +72,6 @@ class UserTableSeeder extends BulkInsertSeeder
 
         $index = $remainder === 0 ? $this->roleCount() : $remainder;
 
-        return RoleEnum::caseAt($index);
+        return RoleEnum::at($index);
     }
 }
